@@ -1,0 +1,2 @@
+Prosty projekt, który został stworzony na potrzeby utworzenia Repozytorium umów dla wspieranych systemów. Program wykorzystuje podstawową funkcjonalność frameworku Django.
+Widoki korzystają z generic views, formularze wykorzystują plik forms. 
