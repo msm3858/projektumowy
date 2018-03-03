@@ -1,0 +1,43 @@
+{% extends "umowy/home.html" %}
+{% block content %}
+<div class="container">
+    <h1>Dodaj nową Umowę</h1>
+    <form class="form-horizontal" action= "" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="col-sm-5 control-label" for="opis">Opis umowy:</label>
+            <div class="col-sm-10">
+                <input class="form-control" name="opis" id="opis" type="text" placeholder="Wpisz opis umowy" autofocus required />
+            </div>
+            <label class="col-sm-5 control-label" for="dataUmowy">Data podpisania umowy:</label>
+            <div class="col-sm-10">
+                <input class="form-control" name="dataUmowy" id="dataUmowy" type="date" placeholder="Wprowadź datę podpisania umowy" required />
+            </div>
+            <label class="col-sm-5 control-label" for="dataKoncaUmowy">Data końca obowiązywania umowy:</label>
+            <div class="col-sm-10">
+                <input class="form-control" name="dataKoncaUmowy" id="dataKoncaUmowy" type="date" required placeholder="Wprowadź datę końca obowiązywania umowy" />
+            </div>
+            <label class="col-sm-5 control-label" for="wsparcie_techniczne">Wsparcie techniczne dla systemu:</label>
+            <div class="col-sm-10">
+                <input class="form-control" name="wsparcie_techniczne" id="wsparcie_techniczne" required type="text" placeholder="Dane wsparcia technicznego" />
+            </div>
+            <label class="col-sm-5 control-label" for="system">Jakiego systemu dotyczy umowa:</label>
+            <div class="col-sm-10">
+                <select name="system" id="system">
+                
+                {% for obj in form.systemy %}
+                <option value ="{{obj}}">{{obj }}</option>
+                {% endfor %}
+            </select>
+            </div><br />
+            <div class="col-sm-3">
+                <input class="btn btn-primary" type="submit" value="Wprowadź" />
+             </div>
+        </div>
+               
+    </form>
+</div>
+
+
+
+{% endblock %}

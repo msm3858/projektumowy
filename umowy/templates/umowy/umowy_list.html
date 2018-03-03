@@ -1,0 +1,46 @@
+{% extends "umowy/home.html" %}
+{% block content %}
+{% if umowy_list %}
+    <table class="table table-bordered">
+        <thread>
+            <tr>
+                <th>id</th>
+                <th>Opis</th>
+                <th>Data umowy</th>
+                <th>Data końca umowy</th>
+                <th>Wsparcie techniczne</th>
+                <th>System</th>
+                <th>Plik umowy</th>
+                <th>Edycja</th>
+                <th>Usuń</th>
+            </tr>
+        </thread>
+        <tbody>
+            {% for umowa in umowy_list %}
+            <tr>
+                <td>{{umowa.id}}</td>
+                <td><a href="{% url 'umowy:umowy_detail' umowa.id %}">{{umowa.opis}}</a></td>
+                <td>{{umowa.dataUmowy|date:"d E, Y"}}</td>
+                <td>{{umowa.dataKoncaUmowy|date:"d E, Y"}}</td>
+                <td>{{umowa.wsparcie_techniczne}}</td>
+                <td><a href="{% url 'umowy:systemy_detail' umowa.system.id %}">{{umowa.system}}</a></td>
+                <td><a href="{{ umowa.plik_umowy.url }}" target="_blank" class="btn btn-info btn-block">{{ umowa.plik_umowy }}</a></td>
+                <td>
+                        <a href="{% url 'umowy:umowy_update' umowa.id %}" class="btn btn-primary btn-block">Edycja</a>
+                    </td>
+                    <td>
+                        <form action="{% url 'umowy:umowy_delete' umowa.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="umowa_id" value="{{ umowa.id }}"/>
+                            <button type="submit" class="btn btn-danger btn-block" onclick="return confirm('Czy chcesz usunąć?')">Usuń</button>
+                        </form>
+                    </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Brak umów do wyświetlenia.</p>
+
+{% endif %}
+{% endblock %}

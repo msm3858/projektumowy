@@ -1,0 +1,13 @@
+{% extends "umowy/home.html" %}
+{% block content %}
+<h1>{{ object.nazwa }}</h1>
+<ul>
+    <li> {{ object.hostname }}</li>
+    <li> {{ object.nazwa }}</li>
+    <li> {{ object.get_system_operacyjny_display }}</li>
+    <li> {{ object.wersja }}</li>
+    <li> {{ object.adres }}</li>
+    <li> {{ object.get_fizyczny_wirtualny_display }}</li>
+    
+</ul>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "umowy/home.html" %}
+{% block content %}
+{% if bazy_list %}
+    <table class="table table-bordered table-hover">
+        <thread>
+            <tr>
+                <th>ID</th>
+                <th>Nazwa</th>
+                <th>Wersja</th>
+                <th>Licencja</th>
+                <th>Edycja</th>
+                <th>Usuń</th>
+            </tr>
+        </thread>
+        <tbody>
+            {% for baza in bazy_list %}
+            <tr>
+                <td>{{baza.id}}</td>
+                <td><a href="{% url 'umowy:bazy_detail' baza.id %}">{{baza.get_nazwa_display}}</a></td>
+                <td>{{baza.nazwa}}</td>
+                <td>{{baza.wersja}}</td>
+                <td>{{baza.get_licencja_display}}</td>
+                <td>
+                    <a href="{% url 'umowy:bazy_update' baza.id %}" class="btn btn-primary btn-block">Edycja</a>
+                </td>
+                <td>
+                    <form action="{% url 'umowy:bazy_delete' baza.id %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="baza_id" value="{{ baza.id }}"/>
+                        <button type="submit" class="btn btn-danger btn-block" onclick="return confirm('Czy chcesz usunąć?')">Usuń</button>
+                    </form>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Brak systemów do wyświetlenia.</p>
+
+{% endif %}
+{% endblock %}

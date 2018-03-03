@@ -1,0 +1,47 @@
+{% extends "umowy/home.html" %}
+{% block content %}
+{% if serwery_list %}
+    <table class="table table-bordered table-hover">
+        <thread>
+            <tr>
+                <th>id</th>
+                <th>Nazwa</th>
+                <th>Hostname</th>
+                <th>System operacyjny</th>
+                <th>Wersja</th>
+                <th>Adres</th>
+                <th>Fizyczny/Wirtualny</th>
+                <th>Edycja</th>
+                <th>Usuń</th>
+            </tr>
+        </thread>
+        <tbody>
+            {% for serwer in serwery_list %}
+            <tr>
+                <td>{{serwer.id}}</td>
+                <td><a href="{% url 'umowy:serwery_detail' serwer.id %}">{{serwer.nazwa}}</a></td>
+                <td>{{serwer.hostname}}</td>
+                <td>{{serwer.get_system_operacyjny_display}} </td>
+                <td>{{serwer.wersja}}</td>
+                <td>{{serwer.adres}}</td>
+                <td>{{serwer.get_fizyczny_wirtualny_display}}</td>
+                <td>
+                    <a href="{% url 'umowy:serwery_update' serwer.id %}" class="btn btn-primary btn-block">Edycja</a>
+                </td>
+                <td>
+                    <form action="{% url 'umowy:serwery_delete' serwer.id %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="serwer_id" value="{{ serwer.id }}"/>
+                        <button type="submit" class="btn btn-danger btn-block" onclick="return confirm('Czy chcesz usunąć?')">Usuń</button>
+                    </form>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Brak serwerów do wyświetlenia.</p>
+
+{% endif %}
+{% endblock %}

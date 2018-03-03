@@ -1,0 +1,117 @@
+{% extends "umowy/home.html" %}
+{% block content %}
+<script>
+    function clicked(e)
+    {
+        if(!confirm("Czy jesteś pewny?"))e.preventDefault();
+    }
+</script>
+<h3 class="display-4"><strong>System: {{ object.nazwa }}</strong></h3>
+<h5>Właściciel: <strong>{{ object.get_firma_display }}</strong></h5>
+<div class="col-6">
+    <table class="table table-bordered ">
+        <thread>
+            <tr>
+                <th></th>
+                <th>Administrator</th>
+            </tr>
+            <tbody>
+                 <tr>
+                    <td>Administrator aplikacji główny</td>
+                    {% if object.administrator_systemu_glowny != NULL %}
+                    <td>{{ object.administrator_systemu_glowny }}</td>
+                    {% else %}
+                    <td>-</td>
+                    {% endif %}
+
+                </tr>
+                <tr>
+                    <td>Administrator aplikacji zastępczy</td>
+                    {% if object.administrator_systemu_zastepczy != NULL %}
+                    <td>{{ object.administrator_systemu_zastepczy }}</td>
+                    {% else %}
+                    <td>-</td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td>Administrator bazy danych główny</td>
+                    {% if object.administrator_bazy_glowny != NULL %}
+                    <td>{{ object.administrator_bazy_glowny }}</td>
+                    {% else %}
+                    <td>-</td>
+                    {% endif %}
+                </tr>   
+                <tr>
+                    <td>Administrator bazy danych zastępczy</td>
+                    {% if object.administrator_bazy_zastepczy != NULL %}
+                    <td>{{ object.administrator_bazy_zastepczy }}</td>
+                    {% else %}
+                    <td>-</td>
+                    {% endif %}
+                </tr>                
+            </tbody>
+        </thread>
+    </table>
+</div>
+<h3 style="text-align: center">Umowy systemu:</h3>
+<div class = "container">
+    <div class="jumbotron" style = "background-color: rgb(197, 208, 219);">
+        <table class="table table-bordered" style = "background-color: rgb(255, 255, 255);">
+            <thread>
+                <tr>
+                    <th>Opis</th>
+                    <th>Data końca umowy</th>
+                    <th>Wsparcie techniczne</th>
+                    <th>Szczegóły</th>
+                </tr>
+            </thread>
+            <tbody>
+                {% for umowa in object.umowyutrzymaniowe_set.all %}
+                <tr>
+                    <td> {{ umowa.opis }}</td>
+                    <td> {{ umowa.dataKoncaUmowy }}</td>
+                    <td> {{ umowa.wsparcie_techniczne }}</td>
+                    <td><a href="{% url 'umowy:umowy_detail' umowa.id %}" class="btn btn-primary btn-block">Szczegóły</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>        
+</div>
+
+<h3 style="text-align: center">Serwery systemu:</h3>
+
+<div class = "container">
+    <div class="jumbotron" style = "background-color: rgb(197, 208, 219);">
+        <table class="table table-bordered" style = "background-color: rgb(255, 255, 255);">
+            <thread>
+                <tr>
+                    <th>ID</th>
+                    <th>Serwer</th>
+                    <th>Edytuj</th>
+                    <th>Usuń</th>
+                </tr>
+            </thread>
+            <tbody>
+                {% for ss in object.serwerysystemow_set.all %}
+                <tr>
+                    <td> {{ ss.id }}</td>
+                    <td> {{ ss.serwer }}</td>
+                    <td>
+                            <a href="{% url 'umowy:serwerysystemow_update' ss.id %}" class="btn btn-primary btn-block">Edycja</a>
+                        </td>
+                        <td>
+                            <form action="{% url 'umowy:serwerysystemow_delete' ss.id %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="serwersystem_id" value="{{ ss.id }}"/>
+                                <button type="submit" class="btn btn-danger btn-block" onclick="clicked(event)">Usuń</button>
+                            </form>
+                        </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>        
+</div>
+
+{% endblock %}

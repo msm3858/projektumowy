@@ -1,0 +1,13 @@
+{% extends "umowy/home.html" %}
+{% block content %}
+<h1>{{ object.nazwa }}</h1>
+<ul>
+    
+    <li> {{ object.opis }}</li>
+    <li> {{ object.dataUmowy }}</li>
+    <li> {{ object.dataKoncaUmowy }}</li>
+    <li> {{ object.wsparcie_techniczne }}</li>
+    <li> <a href="{{ object.plik_umowy.url }}">{{ object.plik_umowy }}</a></li>
+    
+</ul>
+{% endblock %}

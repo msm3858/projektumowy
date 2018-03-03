@@ -1,0 +1,47 @@
+{% extends "umowy/home.html" %}
+{% block content %}
+{% if system_list %}
+    <table class="table table-bordered table-hover">
+        <thread>
+            <tr>
+                <th>id</th>
+                <th>System</th>
+                <th>Właściciel</th>
+                <th>Opis</th>
+                <th>Baza danych</th>
+                <th>Oprogramowanie</th>
+                <th>Data końca wsparcia</th>
+                <th>Edycja</th>
+                <th>Usuń</th>
+            </tr>
+        </thread>
+        <tbody>
+            {% for system in system_list %}
+            <tr>
+                <td>{{system.id}}</td>
+                <td><a href="{% url 'umowy:systemy_detail' system.id %}">{{system.nazwa}}</a></td>
+                <td>{{system.get_firma_display}}</td>
+                <td>{{system.opis_systemu}}</td>
+                <td>{{system.baza_danych.get_nazwa_display}} {{ system.baza_danych.get_wersja_display }}</td>
+                <td>{{system.oprogramowanie}}</td>
+                <td>{{system.data_wsparcia|date:"d E, Y"}}</td>
+                <td>
+                    <a href="{% url 'umowy:systemy_update' system.id %}" class="btn btn-primary btn-block">Edycja</a>
+                </td>
+                <td>
+                    <form action="{% url 'umowy:systemy_delete' system.id %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="system_id" value="{{ system.id }}"/>
+                        <button type="submit" class="btn btn-danger btn-block" onclick="return confirm('Czy chcesz usunąć?')">Usuń</button>
+                    </form>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Brak systemów do wyświetlenia.</p>
+
+{% endif %}
+{% endblock %}

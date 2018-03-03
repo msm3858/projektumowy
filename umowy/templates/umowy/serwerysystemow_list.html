@@ -1,0 +1,39 @@
+{% extends "umowy/home.html" %}
+{% block content %}
+{% if serwerysystemow_list %}
+    <table class="table table-bordered table-hover">
+        <thread>
+            <tr>
+                <th>id</th>
+                <th>Serwer</th>
+                <th>System</th>
+                <th>Edycja</th>
+                <th>Usuń</th>
+            </tr>
+        </thread>
+        <tbody>
+            {% for ss in serwerysystemow_list %}
+            <tr>
+                <td>{{ss.id}}</td>
+                <td><a href="{% url 'umowy:serwery_detail' ss.serwer.id %}">{{ss.serwer}}</a></td>
+                <td><a href="{% url 'umowy:systemy_detail' ss.system.id %}">{{ss.system}}</a></td>
+                <td>
+                    <a href="{% url 'umowy:serwerysystemow_update' ss.id %}" class="btn btn-primary btn-block">Edycja</a>
+                </td>
+                <td>
+                    <form action="{% url 'umowy:serwerysystemow_delete' ss.id %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="serwersystem_id" value="{{ ss.id }}"/>
+                        <button type="submit" class="btn btn-danger btn-block" onclick="return confirm('Czy chcesz usunąć?')">Usuń</button>
+                    </form>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Brak przypisanych serwerów do systemów.</p>
+
+{% endif %}
+{% endblock %}

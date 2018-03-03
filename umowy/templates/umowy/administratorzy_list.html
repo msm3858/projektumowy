@@ -1,0 +1,38 @@
+{% extends "umowy/home.html" %}
+{% block content %}
+{% if administratorzy_list %}
+    <table class="table table-bordered table-hover">
+        <thread>
+            <tr>
+                <th>ID</th>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+            </tr>
+        </thread>
+        <tbody>
+            {% for admin in administratorzy_list %}
+            <tr>
+                <td>{{admin.id}}</td>
+                <td><a href="{% url 'umowy:administratorzy_detail' admin.id %}">{{admin.imie}} {{admin.nazwisko}}</a></td>
+                <td>{{admin.imie}}</td>
+                <td>{{admin.nazwisko}}</td>
+                <td>
+                    <a href="{% url 'umowy:administratorzy_update' admin.id %}" class="btn btn-primary btn-block">Edycja</a>
+                </td>
+                <td>
+                    <form action="{% url 'umowy:administratorzy_delete' admin.id %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="admin_id" value="{{ admin.id }}"/>
+                        <button type="submit" class="btn btn-danger btn-block" onclick="return confirm('Czy chcesz usunąć?')">Usuń</button>
+                    </form>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Brak administratorów do wyświetlenia.</p>
+
+{% endif %}
+{% endblock %}

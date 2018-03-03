@@ -1,0 +1,8 @@
+{% extends "umowy/home.html" %}
+{% block content %}
+<h1>{{ object.get_nazwa_display }}</h1>
+<ul>
+    <li>{{object.wersja}}</li>
+    <li>{{object.get_licencja_display}}</li>
+</ul>
+{% endblock %}

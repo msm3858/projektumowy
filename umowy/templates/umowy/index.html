@@ -1,0 +1,14 @@
+{% extends "umowy/home.html" %}
+{% block content %}
+{% if latest_system_list %}
+    <ul>
+        {% for system in latest_system_list %}
+        <li><a href="{% url 'umowy:systemy_detail' system.id %}">{{system.nazwa}}</a></li>
+        {% endfor %}
+    
+    </ul>
+{% else %}
+    <p>Brak systemów do wyświetlenia.</p>
+
+{% endif %}
+{% endblock %}
